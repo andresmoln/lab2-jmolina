@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-<<<<<<< HEAD
     <groupId>com.jmolina</groupId>
-=======
-    <groupId>com.mycompany</groupId>
->>>>>>> beb3effc8f5bb26b4bfb221c241a107b84d948bf
     <artifactId>lab2-jmolina</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<<<<<<< HEAD
         <maven.compiler.release>25</maven.compiler.release>
         <exec.mainClass>com.jmolina.lab2.Main</exec.mainClass>
-=======
-        <maven.compiler.release>24</maven.compiler.release>
-        <exec.mainClass>com.mycompany.lab2.jmolina.Lab2Jmolina</exec.mainClass>
->>>>>>> beb3effc8f5bb26b4bfb221c241a107b84d948bf
     </properties>
 </project>

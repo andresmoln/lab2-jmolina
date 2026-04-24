@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 com\jmolina\lab2\view\UserMaintenance$7.class
 com\jmolina\lab2\view\LoginForm$1.class
 com\jmolina\lab2\view\PasswordReset.class
@@ -25,9 +24,3 @@ com\jmolina\lab2\view\PasswordReset$4.class
 com\jmolina\lab2\view\UserMaintenance$5.class
 com\jmolina\lab2\view\UserMaintenance$3.class
 com\jmolina\lab2\util\Dialog.class
-=======
-com\mycompany\lab2\jmolina\Login$1.class
-com\mycompany\lab2\jmolina\Lab2Jmolina.class
-com\mycompany\lab2\jmolina\Login$2.class
-com\mycompany\lab2\jmolina\Login.class
->>>>>>> beb3effc8f5bb26b4bfb221c241a107b84d948bf
