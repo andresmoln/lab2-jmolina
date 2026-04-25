@@ -255,6 +255,12 @@ public class PasswordReset extends javax.swing.JFrame {
             return false;
         }
 
+        if (newPassword.equals(currentPassword)) {
+            Dialog.showError(this, "New password must be different from current password");
+            FormUtils.clearFields(txtNewPassword, txtConfirmPassword);
+            return false;
+        }
+
         userService.updatePassword(username, newPassword);
         Dialog.showSuccess(this, "Password updated successfully");
         return true;

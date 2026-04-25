@@ -9,12 +9,12 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 
 public class UserMaintenance extends javax.swing.JFrame {
-    
+
     private final DefaultListModel<String> listModel;
     private final UserService userService;
     private boolean isAdding = false;
     private boolean isUpdating = false;
-    
+
     public UserMaintenance() {
         userService = UserService.getInstance();
         initComponents();
@@ -23,7 +23,7 @@ public class UserMaintenance extends javax.swing.JFrame {
         loadUsers();
         setInitialState();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -212,7 +212,7 @@ public class UserMaintenance extends javax.swing.JFrame {
             if (selected != null && !isAdding && !isUpdating) {
                 btnUpdate.setEnabled(true);
                 btnDeactivate.setEnabled(true);
-                
+
                 if (selected.contains("Inactive")) {
                     btnDeactivate.setText("Activate");
                 } else {
@@ -221,132 +221,142 @@ public class UserMaintenance extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_userListValueChanged
-    
+
     private void setInitialState() {
         txtUsername.setEnabled(false);
         txtPassword.setEnabled(false);
         txtPassword.setVisible(true);
         lblPassword.setVisible(true);
-        
+
         FormUtils.clearFields(txtUsername, txtPassword);
-        
+
         btnAdd.setVisible(true);
         btnUpdate.setVisible(true);
         btnDeactivate.setVisible(true);
         btnExit.setVisible(true);
-        
+
         btnUpdate.setEnabled(false);
         btnDeactivate.setEnabled(false);
-        
+
         btnConfirm.setVisible(false);
         btnCancel.setVisible(false);
-        
+
         userList.clearSelection();
-        
+
         isAdding = false;
         isUpdating = false;
-        
+
         btnDeactivate.setText("Deactivate");
     }
-    
+
     private void setAddingState() {
         isAdding = true;
-        
+
         txtUsername.setEnabled(true);
         txtPassword.setEnabled(true);
-        
+
         btnAdd.setVisible(false);
         btnUpdate.setVisible(false);
         btnDeactivate.setVisible(false);
         btnExit.setVisible(false);
-        
+
         btnConfirm.setVisible(true);
         btnCancel.setVisible(true);
-        
+
         txtUsername.requestFocus();
     }
-    
+
     private void setUpdatingState() {
         isUpdating = true;
-        
+
         txtUsername.setEnabled(true);
         txtPassword.setEnabled(false);
         txtPassword.setVisible(false);
         lblPassword.setVisible(false);
-        
+
         btnAdd.setVisible(false);
         btnUpdate.setVisible(false);
         btnDeactivate.setVisible(false);
         btnExit.setVisible(false);
-        
+
         btnConfirm.setVisible(true);
         btnCancel.setVisible(true);
     }
-    
+
     private void loadUsers() {
         listModel.clear();
         List<User> users = userService.getUsers();
-        
+
         for (User user : users) {
             String status = user.isActive() ? "Active" : "Inactive";
             listModel.addElement(user.getUsername() + " - " + status);
         }
     }
-    
+
     private boolean addUser() {
         String username = txtUsername.getText();
         String password = String.valueOf(txtPassword.getPassword());
-        
+
         if (Validator.isEmpty(username) || Validator.isEmpty(password)) {
             Dialog.showError(this, "All fields are required");
             return false;
         }
-        
+
         if (userService.userExists(username)) {
             Dialog.showError(this, "User already exists");
             return false;
         }
-        
+
+        if (!Validator.isValidPassword(password)) {
+            Dialog.showError(this, "Password must be at least 13 characters, include one uppercase letter and one special character");
+            return false;
+        }
+
         userService.addUser(new User(username, password, true));
         loadUsers();
         return true;
     }
-    
+
     private boolean updateUser() {
         String selected = userList.getSelectedValue();
         String oldUsername = selected.split(" - ")[0];
         String newUsername = txtUsername.getText();
-        
+
         if (Validator.isEmpty(newUsername)) {
             Dialog.showError(this, "Username is required");
             return false;
         }
-        
+
+        if (!oldUsername.equals(newUsername) && userService.userExists(newUsername)) {
+            Dialog.showError(this, "User already exists");
+            return false;
+        }
+
         userService.updateUsername(oldUsername, newUsername);
         loadUsers();
         return true;
     }
-    
+
     private void deactivateUser() {
         String selected = userList.getSelectedValue();
-        
+
         if (selected == null) {
             Dialog.showError(this, "Select a user");
             return;
         }
-        
+
         String username = selected.split(" - ")[0];
-        
+
         if (selected.contains("Inactive")) {
             userService.activateUser(username);
         } else {
             userService.deactivateUser(username);
         }
-        
+
         loadUsers();
         setInitialState();
     }
-    
+
     private void onConfirm() {
         if (isAdding && addUser()) {
             setInitialState();
@@ -354,7 +364,7 @@ public class UserMaintenance extends javax.swing.JFrame {
             setInitialState();
         }
     }
-    
+
     private void goBack() {
         new MainMenu().setVisible(true);
         this.dispose();
